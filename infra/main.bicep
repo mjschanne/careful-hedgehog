@@ -3,14 +3,17 @@ targetScope = 'subscription'
 @minLength(1)
 @maxLength(64)
 @description('Name of the the environment which is used to generate a short unique hash used in all resources.')
-param environmentName string // what if I give a default value here? e.g. carefulhedgehog
+param environmentName string = 'careful-hedgehog'
 
 @minLength(1)
 @description('Primary location for all resources')
-param location string // what if I give a default value here? e.g. eastus2
+param location string = 'eastus2'
 
 @description('Id of the user or app to assign application roles')
 param principalId string = ''
+
+@description('URL of the repository to deploy')
+param repositoryUrl string = 'https://github.com/mjschanne/careful-hedgehog'
 
 // any other tags that I want to allow via parameters?
 var tags = { 'azd-env-name': environmentName }
@@ -29,6 +32,7 @@ module swa './modules/swa.bicep' = {
     name: 'swa-${environmentName}'
     location: location
     tags: tags
+    repositoryUrl: repositoryUrl
   }
 }
 // todo: swa

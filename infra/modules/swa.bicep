@@ -1,6 +1,8 @@
 param name string
 param location string = resourceGroup().location
 param tags object = {} // { tagName1: 'tagValue1' tagName2: 'tagValue2' }
+param repositoryUrl string
+param branch string = 'main'
 @allowed([ 'Free', 'Standard' ])
 param sku string = 'Standard'
 
@@ -19,7 +21,8 @@ resource swa 'Microsoft.Web/staticSites@2022-09-01' = {
 
   properties: {
     allowConfigFileUpdates: true
-    branch: 'main'
+    branch: branch
+    repositoryUrl: repositoryUrl
     buildProperties: {
       apiBuildCommand: 'dotnet build'
       apiLocation: 'src/Api'
@@ -34,7 +37,7 @@ resource swa 'Microsoft.Web/staticSites@2022-09-01' = {
     // provider: 'string'
     // publicNetworkAccess: 'string'
     // repositoryToken: 'string'
-    // repositoryUrl: 'string'
+    
     // stagingEnvironmentPolicy: 'string'
     // templateProperties: {
     //   description: 'string'
